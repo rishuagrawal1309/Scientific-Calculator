@@ -3,11 +3,25 @@ pipeline {
 
     stages {
 
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
+
+        stage('Clone Repository') {
+            steps {
+                sh '''
+                git clone https://github.com/rishuagrawal1309/Scientific-Calculator.git project
+                '''
+            }
+        }
+
         stage('Build & Test') {
             steps {
                 sh '''
                 docker run --rm \
-                -v ${WORKSPACE}:/app \
+                -v ${WORKSPACE}/project:/app \
                 -w /app \
                 maven:3.9.6-eclipse-temurin-17 \
                 mvn clean package
@@ -17,7 +31,10 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t rishuagrawal13/scientific-calculator:latest .'
+                sh '''
+                cd project
+                docker build -t rishuagrawal13/scientific-calculator:latest .
+                '''
             }
         }
 
