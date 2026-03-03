@@ -7,12 +7,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/rishuagrawal1309/Scientific-Calculator.git'
-            }
-        }
-
         stage('Build & Test') {
             steps {
                 sh 'mvn clean package'
