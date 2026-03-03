@@ -1,55 +1,46 @@
 pipeline {
-    agent any
-
-    environment {
-        DOCKER_IMAGE = "rishuagrawal1309/scientific-calculator"
+    agent {
+        docker {
+            image 'maven:3.9.6-eclipse-temurin-17'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
     }
 
     stages {
 
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Build & Test') {
             steps {
-                sh '''
-                docker run --rm \
-                 -v $PWD:/app \
-                 -w /app \
-                 maven:3.9.6-eclipse-temurin-17 \
-                 mvn clean package
-                 '''
-                 }
-         }
-               
+                sh 'mvn clean package'
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:latest .'
+                sh 'docker build -t rishuagrawal13/scientific-calculator:latest .'
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-cred',
-                                                 usernameVariable: 'DOCKER_USER',
-                                                 passwordVariable: 'DOCKER_PASS')]) {
-                    sh """
-                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                    docker push $DOCKER_IMAGE:latest
-                    """
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh '''
+                    echo $PASS | docker login -u $USER --password-stdin
+                    docker push rishuagrawal13/scientific-calculator:latest
+                    '''
                 }
             }
         }
     }
 
     post {
-        success {
-            mail to: 'rishuagrawal1309@gmail.com',
-                 subject: 'Build Success',
-                 body: 'Scientific Calculator build successful.'
-        }
-        failure {
-            mail to: 'rishuagrawal1309@gmail.com',
-                 subject: 'Build Failed',
-                 body: 'Scientific Calculator build failed.'
+        always {
+            echo "Pipeline Completed"
         }
     }
 }
