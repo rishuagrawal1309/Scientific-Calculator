@@ -17,18 +17,17 @@ pipeline {
             }
         }
 
-       stage('Build & Test') {
+      stage('Build & Test') {
     steps {
         sh '''
         docker run --rm \
-        -v /workspace:/app \
+        -v $PWD:/app \
         -w /app \
         maven:3.9.6-eclipse-temurin-17 \
         mvn clean package
         '''
     }
 }
-
         stage('Build Docker Image') {
             steps {
                 sh '''
