@@ -45,26 +45,7 @@ pipeline {
                 }
             }
         }
-    }
 
-    post {
-        always {
-            echo "Pipeline Completed"
-        }
-    }
-}            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh '''
-                    echo $PASS | docker login -u $USER --password-stdin
-                    docker push rishuagrawal13/scientific-calculator:latest
-                    '''
-                }
-            }
-        }
     }
 
     post {
