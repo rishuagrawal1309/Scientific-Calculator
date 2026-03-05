@@ -17,7 +17,7 @@ pipeline {
      stage('Build Docker Image') {
     steps {
         sh '''
-        docker build -t rishuagrawal13/scientific-calculator:${BUILD_NUMBER} .
+        docker build -t rishuagrawal1309/scientific-calculator:${BUILD_NUMBER} .
         '''
     }
 }
@@ -27,7 +27,7 @@ stage('Push Docker Image') {
         withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
             sh '''
             echo $PASS | docker login -u $USER --password-stdin
-            docker push rishuagrawal13/scientific-calculator:${BUILD_NUMBER}
+            docker push rishuagrawal1309/scientific-calculator:${BUILD_NUMBER}
             '''
         }
     }
