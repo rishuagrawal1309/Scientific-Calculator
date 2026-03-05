@@ -10,16 +10,25 @@ pipeline {
         }
 
         stage('Build & Test') {
-            steps {
-                sh '''
-                docker run --rm \
-                -v $PWD:/app \
-                -w /app \
-                maven:3.9.6-eclipse-temurin-17 \
-                mvn clean package
-                '''
-            }
-        }
+    steps {
+        sh '''
+        echo "Current directory:"
+        pwd
+
+        echo "Files in workspace:"
+        ls -la
+
+        echo "Check for pom.xml:"
+        find . -name pom.xml
+
+        docker run --rm \
+        -v $PWD:/app \
+        -w /app \
+        maven:3.9.6-eclipse-temurin-17 \
+        mvn clean package
+        '''
+    }
+}
 
         stage('Build Docker Image') {
             steps {
