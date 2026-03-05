@@ -14,24 +14,24 @@ pipeline {
         sh 'mvn clean package'
     }
 }
-        stage('Build Docker Image') {
-            steps {
-                sh '''
-                docker build -t rishuagrawal13/scientific-calculator:latest .
-                '''
-            }
-        }
+     stage('Build Docker Image') {
+    steps {
+        sh '''
+        docker build -t rishuagrawal13/scientific-calculator:${BUILD_NUMBER} .
+        '''
+    }
+}
 
-        stage('Push Docker Image') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh '''
-                    echo $PASS | docker login -u $USER --password-stdin
-                    docker push rishuagrawal13/scientific-calculator:latest
-                    '''
-                }
-            }
+stage('Push Docker Image') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+            sh '''
+            echo $PASS | docker login -u $USER --password-stdin
+            docker push rishuagrawal13/scientific-calculator:${BUILD_NUMBER}
+            '''
         }
+    }
+}
 
     }
 
