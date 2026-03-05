@@ -11,12 +11,9 @@ pipeline {
 
         stage('Build & Test') {
     steps {
-        sh '''
-        mvn clean package
-        '''
+        sh 'mvn clean package'
     }
 }
-
         stage('Build Docker Image') {
             steps {
                 sh '''
