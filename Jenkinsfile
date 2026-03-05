@@ -22,7 +22,7 @@ pipeline {
         sh '''
         docker run --rm \
         -v $PWD:/app \
-        -w /app \
+        -w /app/project \
         maven:3.9.6-eclipse-temurin-17 \
         mvn clean package
         '''
