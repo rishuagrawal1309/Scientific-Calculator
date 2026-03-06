@@ -1,0 +1,23 @@
+---
+- name: Deploy Scientific Calculator Container
+  hosts: localhost
+  become: false
+
+  vars:
+    image_tag: "{{ build_number }}"
+
+  tasks:
+
+    - name: Remove old container if exists
+      community.docker.docker_container:
+        name: scientific_calculator
+        state: absent
+
+    - name: Run Scientific Calculator Container
+      community.docker.docker_container:
+        name: scientific_calculator
+        image: "rishuagrawal1309/scientific-calculator:{{ image_tag }}"
+        state: started
+        interactive: true
+        tty: true
+        
