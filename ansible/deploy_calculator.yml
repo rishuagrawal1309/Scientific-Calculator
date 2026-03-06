@@ -20,4 +20,12 @@
         state: started
         interactive: true
         tty: true
-        
+        detach: true
+
+    - name: Show command to access calculator
+      debug:
+        msg: |
+          Container deployed successfully!
+          
+          To open the calculator run:
+          docker exec -it scientific_calculator java -jar app.jar
