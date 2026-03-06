@@ -32,7 +32,15 @@ stage('Push Docker Image') {
         }
     }
 }
-
+        stage('Deploy with Ansible') {
+    steps {
+        sh '''
+        ansible-playbook ansible/deploy_calculator.yml \
+        -i ansible/inventory \
+        -e build_number=${BUILD_NUMBER}
+        '''
+    }
+}
     }
 
     post {
