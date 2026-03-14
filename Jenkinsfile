@@ -44,8 +44,20 @@ stage('Push Docker Image') {
     }
 
     post {
-        always {
-            echo "Pipeline Completed"
-        }
+    always {
+        echo "Pipeline Completed"
     }
+
+    success {
+        mail to: 'your_email@gmail.com',
+        subject: "Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+        body: "The build completed successfully."
+    }
+
+    failure {
+        mail to: 'your_email@gmail.com',
+        subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+        body: "The build failed. Please check Jenkins logs."
+    }
+}
 }
