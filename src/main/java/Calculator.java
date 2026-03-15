@@ -30,6 +30,11 @@ public class Calculator {
                 case 1:
                     System.out.print("Enter number: ");
                     double num = sc.nextDouble();
+                    if(num<0)
+                    {
+                        System.out.println("Invalid input ");
+                        break;
+                    }
                     System.out.println("Result: " + Math.sqrt(num));
                     break;
 
@@ -42,6 +47,11 @@ public class Calculator {
                 case 3:
                     System.out.print("Enter number: ");
                     double logNum = sc.nextDouble();
+                    if(logNum<=0)
+                    {
+                        System.out.println("Invalid input ");
+                        break;
+                    }
                     System.out.println("Result: " + Math.log(logNum));
                     break;
 
@@ -50,6 +60,11 @@ public class Calculator {
                     double base = sc.nextDouble();
                     System.out.print("Enter exponent: ");
                     double exp = sc.nextDouble();
+                    if(exp<0 && base==0)
+                    {
+                        System.out.println("Not defined.");
+                        break;
+                    }
                     System.out.println("Result: " + Math.pow(base, exp));
                     break;
 
