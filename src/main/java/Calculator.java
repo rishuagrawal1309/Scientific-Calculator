@@ -9,7 +9,7 @@ public class Calculator {
             result *= i;
         return result;
     }
-//this is for testing
+//this is for testing1
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
