@@ -13,7 +13,7 @@ public class Calculator {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-
+//Testing
         while (true) {
             System.out.println("\n--- Scientific Calculator ---");
             System.out.println("1. Square Root (√x)");
